@@ -90,6 +90,12 @@ app.get('/chat', async (req, res) => {
     }
 });
 
+// After all other routes
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/index.html'));
+});
+
+
 // Stel de poort in en start de server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

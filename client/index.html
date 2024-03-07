@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess that Pokémon</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/pokemon-solid" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <link rel="icon" href="img/favicon.png">
+</head>
+<body class="bg-gray-100">
+<header class="bg-red-600 text-white text-center p-6">
+    <h1 id="pokemonTitle">Guess that Pokémon</h1>
+</header>
+
+<main>
+    <section id="game-section" class="mt-8 flex justify-center items-center space-x-4">
+        <div>
+            <label for="personalityTrait" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Personality/Role of the AI description:</label>
+            <input id="personalityTrait" type="text" class="mb-4 p-2 border border-gray-300 rounded w-80" placeholder="E.g. Grumpy Professor or Dyslexic Lawyer" required>
+        </div>
+        <div>
+            <label for="pokemonType" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Choose a type:</label>
+            <select id="pokemonType" class="mb-4 p-2 border border-gray-300 rounded">
+                <!-- Dynamisch gevuld met Pokémon types -->
+            </select>
+        </div>
+
+        <div>
+            <label for="pokemonGeneration" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Choose a generation:</label>
+            <select id="pokemonGeneration" class="mb-4 p-2 border border-gray-300 rounded">
+                <!-- Dynamisch gevuld met Pokémon generaties -->
+            </select>
+        </div>
+
+        <div>
+            <label for="gameMode" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Choose game mode:</label>
+            <select id="gameMode" class="mb-4 p-2 border border-gray-300 rounded">
+                <option value="description" selected>Description Only</option>
+                <option value="image">Image Only</option>
+                <option value="both">Both</option>
+            </select>
+        </div>
+
+        <button id="start-btn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3">
+            Start Game
+        </button>
+    </section>
+
+    <div class="flex justify-center items-center mt-8 mx-auto max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden">
+        <section id="pokemon-image-section" class="hidden justify-center items-center">
+            <img id="pokemon-image" src="" alt="Pokémon image" class="max-w-xs">
+        </section>
+
+        <section id="response-section" class="p-4 flex items-center">
+            <p id="pokemon-description" class="text-center">
+                The description of the Pokémon will appear here...
+            </p>
+        </section>
+    </div>
+
+    <section id="guess-section" class="mt-8 flex justify-center items-center">
+        <input type="text" id="user-guess" placeholder="Your guess..." class="p-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+        <button id="guess-btn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-r-lg">
+            Guess
+        </button>
+        <button id="hint-btn" class="bg-yellow-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-r-lg">
+            Reveal Image
+        </button>
+    </section>
+
+</main>
+<script src="script.js"></script>
+</body>
+</html>

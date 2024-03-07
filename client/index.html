@@ -9,46 +9,45 @@
     <link href="style.css" rel="stylesheet">
     <link rel="icon" href="img/favicon.png">
 </head>
-<body class="bg-gray-100">
-<header class="bg-red-600 text-white text-center p-6">
+<body class="bg-gray-100 dark:bg-gray-700">
+<header class="bg-red-600 text-white text-center p-4 sm:p-6">
     <h1 id="pokemonTitle">Guess that Pokémon</h1>
 </header>
 
-<main>
-    <section id="game-section" class="mt-8 flex justify-center items-center space-x-4">
-        <div>
-            <label for="personalityTrait" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Personality/Role of the AI description:</label>
-            <input id="personalityTrait" type="text" class="mb-4 p-2 border border-gray-300 rounded w-80" placeholder="E.g. Grumpy Professor or Dyslexic Lawyer" required>
+<main class="px-4 sm:px-8 py-4">
+    <section id="game-section" class="mt-2 flex flex-wrap justify-between items-center sm:space-y-0 sm:space-x-4">
+        <div class="w-full sm:w-auto px-2 sm:px-0">
+            <label for="personalityTrait" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Give the AI a personality:</label>
+            <input id="personalityTrait" type="text" class="mb-4 p-2 border border-gray-300 rounded w-full" placeholder="E.g. Grumpy Professor" required>
         </div>
-        <div>
-            <label for="pokemonType" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Choose a type:</label>
-            <select id="pokemonType" class="mb-4 p-2 border border-gray-300 rounded">
-                <!-- Dynamisch gevuld met Pokémon types -->
+        <div class="w-1/2 sm:w-auto px-2 sm:px-0">
+            <label for="pokemonType" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Type:</label>
+            <select id="pokemonType" class="mb-4 p-2 border border-gray-300 rounded w-full">
+                <option value="any">Any</option>
+                <!-- Dynamically filled with Pokémon types from the api -->
             </select>
         </div>
-
-        <div>
-            <label for="pokemonGeneration" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Choose a generation:</label>
-            <select id="pokemonGeneration" class="mb-4 p-2 border border-gray-300 rounded">
-                <!-- Dynamisch gevuld met Pokémon generaties -->
+        <div class="w-1/2 sm:w-auto px-2 sm:px-0">
+            <label for="pokemonGeneration" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Generation:</label>
+            <select id="pokemonGeneration" class="mb-4 p-2 border border-gray-300 rounded w-full">
+                <!-- Dynamically filled with Pokémon generations from the api -->
             </select>
         </div>
-
-        <div>
-            <label for="gameMode" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Choose game mode:</label>
-            <select id="gameMode" class="mb-4 p-2 border border-gray-300 rounded">
-                <option value="description" selected>Description Only</option>
-                <option value="image">Image Only</option>
-                <option value="both">Both</option>
+        <div class="w-1/2 sm:w-auto px-2 sm:px-0">
+            <label for="gameMode" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Game mode:</label>
+            <select id="gameMode" class="mb-4 p-2 border border-gray-300 rounded w-full">
+                <option value="description" selected>Description</option>
+                <option value="image">Image</option>
             </select>
         </div>
-
-        <button id="start-btn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3">
-            Start Game
-        </button>
+        <div class="w-1/2 sm:w-auto flex justify-center sm:justify-start px-2 sm:px-0">
+            <button id="start-btn" class="bg-red-600 hover:bg-red-300 text-white font-bold py-2 px-4 rounded mt-3">
+                New Game
+            </button>
+        </div>
     </section>
 
-    <div class="flex justify-center items-center mt-8 mx-auto max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden">
+    <div class="flex flex-col sm:flex-row justify-center items-center mt-4 mx-auto max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden">
         <section id="pokemon-image-section" class="hidden justify-center items-center">
             <img id="pokemon-image" src="" alt="Pokémon image" class="max-w-xs">
         </section>
@@ -60,13 +59,10 @@
         </section>
     </div>
 
-    <section id="guess-section" class="mt-8 flex justify-center items-center">
-        <input type="text" id="user-guess" placeholder="Your guess..." class="p-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-        <button id="guess-btn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-r-lg">
+    <section id="guess-section" class="mt-6 flex flex-wrap justify-center items-center">
+        <input type="text" id="user-guess" placeholder="Your guess..." class="p-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent w-2/3 sm:w-auto">
+        <button id="guess-btn" class="bg-red-600 hover:bg-red-300 text-white font-bold py-2 px-4 rounded-r-lg">
             Guess
-        </button>
-        <button id="hint-btn" class="bg-yellow-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-r-lg">
-            Reveal Image
         </button>
     </section>
 

@@ -1,14 +1,18 @@
+let allTypes
 document.addEventListener('DOMContentLoaded', function() {
     const typeSelect = document.getElementById('pokemonType');
     const generationSelect = document.getElementById('pokemonGeneration');
+    let allTypes = []; // Store all types for later use
+    const excludedTypes = ['unknown', 'shadow']; // Types to be excluded
 
     fetch('https://pokeapi.co/api/v2/type')
         .then(response => response.json())
         .then(data => {
-            data.results.forEach(type => {
+            allTypes = data.results.filter(type => !excludedTypes.includes(type.name)); // Exclude certain types
+            allTypes.forEach(type => {
                 const option = document.createElement('option');
                 option.value = type.name;
-                option.textContent = type.name;
+                option.textContent = type.name.charAt(0).toUpperCase() + type.name.slice(1); // Capitalize first letter
                 typeSelect.appendChild(option);
             });
         });
@@ -19,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
             data.results.forEach(generation => {
                 const option = document.createElement('option');
                 option.value = generation.name;
-                option.textContent = generation.name;
+                option.textContent = generation.name.charAt(0).toUpperCase() + generation.name.slice(1);
                 generationSelect.appendChild(option);
             });
         });
@@ -29,7 +33,7 @@ document.getElementById('start-btn').addEventListener('click', async function() 
     document.body.style.backgroundColor = '#f8f9fc';
     const personalityTrait = document.getElementById('personalityTrait').value;
     if (!personalityTrait.trim()) {
-        alert("Please enter a personality/role.");
+        alert("Please enter a personality.");
         return;
     }
 
@@ -43,8 +47,14 @@ document.getElementById('start-btn').addEventListener('click', async function() 
     document.getElementById('pokemon-image-section').classList.add('hidden');
     document.getElementById('pokemon-description').classList.remove('hidden');
 
-    const type = document.getElementById('pokemonType').value;
+    let type = document.getElementById('pokemonType').value;
     const generation = document.getElementById('pokemonGeneration').value;
+
+    // Handling the "Any" option
+    if (type === 'any') {
+        const randomIndex = Math.floor(Math.random() * allTypes.length); // Randomly select an index
+        type = allTypes[randomIndex].name; // Update type to a randomly selected one
+    }
 
     try {
         const response = await fetch('/chat', {
@@ -58,20 +68,14 @@ document.getElementById('start-btn').addEventListener('click', async function() 
 
         localStorage.setItem('pokemonImageUrl', data.imageUrl);
 
-        if (gameMode === 'description' || gameMode === 'both') {
+        if (gameMode === 'description') {
             document.getElementById('pokemon-description').innerHTML = data.description;
         }
 
-        if (gameMode === 'image' || gameMode === 'both') {
+        if (gameMode === 'image') {
             document.getElementById('pokemon-image').src = data.imageUrl;
             document.getElementById('pokemon-image-section').classList.remove('hidden');
             document.getElementById('pokemon-description').innerHTML = '';
-        }
-
-        if (gameMode === 'description') {
-            document.getElementById('hint-btn').classList.remove('hidden');
-        } else {
-            document.getElementById('hint-btn').classList.add('hidden');
         }
 
         localStorage.setItem('correctPokemonName', data.correctName);
@@ -89,12 +93,6 @@ function showPokemonImage(imageUrl) {
     document.getElementById('pokemon-image').src = imageUrl;
     document.getElementById('pokemon-image-section').classList.remove('hidden');
 }
-
-document.getElementById('hint-btn').addEventListener('click', function() {
-    const imageUrl = localStorage.getItem('pokemonImageUrl');
-    showPokemonImage(imageUrl);
-});
-
 
 document.getElementById('guess-btn').addEventListener('click', function() {
     const userGuess = document.getElementById('user-guess').value.toLowerCase();

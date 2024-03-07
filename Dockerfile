@@ -7,11 +7,13 @@ WORKDIR /usr/src/app
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
-COPY package*.json ./
+# Copy server package.json and install dependencies
+COPY SERVER/package.json ./
 RUN npm install
 
-# Bundle app source
-COPY . .
+
+# Copy the rest of your application code
+COPY SERVER/. ./
 
 # Build the client application
 # This step is assumed to be unnecessary in your case as you serve static files directly

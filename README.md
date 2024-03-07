@@ -1,6 +1,6 @@
 # guess-that-pokemon
 
-**Installatie**
+**Installatie** <br>
 Wanneer je de documenten uit de Github repository hebt gedownload en verder wilt werken met dit project, is het handig om als eerste npm install uit te voeren in de directory waar je server staat. Zie onderstaande structuur:
 
 ```
@@ -22,4 +22,4 @@ node_modules
 .env
 ```
 
-**Eventuele issues**
+**Eventuele issues**<br>

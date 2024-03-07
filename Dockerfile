@@ -4,16 +4,21 @@ FROM node:14
 # Create app directory
 WORKDIR /usr/src/app
 
-# Install app dependencies
-# Ensure you copy both package.json AND package-lock.json if present
-COPY SERVER/package*.json ./
+# Assuming your SERVER directory is at the root of your repository,
+# and you are copying it correctly, adjust the path as necessary.
+
+# Copy both package.json AND package-lock.json if available
+# Make sure to adjust this if your structure is different
+COPY ./SERVER/package*.json ./
+
+# Install dependencies
 RUN npm install
 
-# Copy the rest of your application code
-COPY SERVER/ .
+# Now copy the rest of your server's source code
+COPY ./SERVER/ ./
 
-# Expose the port the app runs on
+# Expose the port your app runs on
 EXPOSE 3000
 
-# Command to run the application
-CMD [ "node", "server.js" ]
+# Specify the command to run your app
+CMD ["node", "server.js"]

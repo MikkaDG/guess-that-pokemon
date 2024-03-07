@@ -26,7 +26,7 @@ const model = new ChatOpenAI({
 });
 
 app.post('/chat', async (req, res) => {
-    const { type, generation, personalityTrait } = req.body;
+    const { type, generation, personalityTrait, gameMode } = req.body;
 
     try {
         // Haalt de lijst van Pokémon op voor het opgegeven type
@@ -49,18 +49,21 @@ app.post('/chat', async (req, res) => {
         const pokemonDetailsResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${randomPokemonName}`);
         const pokemonDetails = await pokemonDetailsResponse.json();
 
-        // Stelt de prompt in, vertelt de AI wat zijn persoonlijkheid is en vraagt om een beschrijving van de Pokémon
-        const prompt = `You are a ${personalityTrait}. Make sure you really get into the role.
-        Give a short description of ${pokemonDetails.name} without mentioning its name, make sure you mention it's colour, 
-        type, if it resembles an animal mention that as well, and any other interesting details! 
-        (For example: "It's a red and white Pokémon with a fire type, it looks like a lizard and it has a flame on its tail.") 
-        Again, NEVER mention the name of the Pokémon in your response!`;
+        let description = ""; // Initialize description as an empty string
 
-        // Verzendt de prompt naar het taalmodel
-        const chatResponse = await model.invoke(prompt);
+        // Genereert alleen beschrijving als spelmodus 'description' is om onnodig gebruik van de AI te voorkomen
+        if (gameMode === 'description') {
+            // Stelt de prompt in, vertelt de AI wat zijn persoonlijkheid is en vraagt om een beschrijving van de Pokémon
+            const prompt = `You are a ${personalityTrait}. Make sure you really get into the role.
+            Give a short description of ${pokemonDetails.name} without mentioning its name, make sure you mention it's colour, 
+            type, if it resembles an animal mention that as well, and any other interesting details! 
+            (For example: "It's a red and white Pokémon with a fire type, it looks like a lizard and it has a flame on its tail.") 
+            Again, NEVER mention the name of the Pokémon in your response!`;
 
-        // Gebruikt het antwoord van het taalmodel als de beschrijving
-        const description = chatResponse.content;
+            // Verzendt de prompt naar het taalmodel als de spelmodus 'description' is
+            const chatResponse = await model.invoke(prompt);
+            description = chatResponse.content;
+        }
 
         // Haalt de sprite op van de gekozen Pokémon, stelt de kans op een shiny sprite in op 1:10
         const imageUrl = Math.random() < 0.10 ? pokemonDetails.sprites.other['official-artwork'].front_shiny : pokemonDetails.sprites.other['official-artwork'].front_default;

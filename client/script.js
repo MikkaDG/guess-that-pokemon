@@ -1,5 +1,24 @@
 let allTypes
 let allGenerations
+
+document.addEventListener('DOMContentLoaded', function() {
+    const gameModeSelect = document.getElementById('gameMode');
+    const personalityInput = document.getElementById('personalityTrait');
+
+    // Functie om te controleren of de persoonlijkheid vereist is op basis van de spelmodus
+    function updatePersonalityRequirement() {
+        const gameMode = gameModeSelect.value;
+        // Als de spelmodus 'description' is, is de persoonlijkheid vereist
+        personalityInput.required = gameMode !== 'image';
+    }
+
+    // Roep de functie aan om de vereiste te controleren
+    updatePersonalityRequirement();
+
+    // Voeg een eventlistener toe om de vereiste te controleren wanneer de spelmodus verandert
+    gameModeSelect.addEventListener('change', updatePersonalityRequirement);
+});
+
 document.addEventListener('DOMContentLoaded', function() {
     const typeSelect = document.getElementById('pokemonType'); // Selectielijst voor types
     const generationSelect = document.getElementById('pokemonGeneration'); // Selectielijst voor generaties
@@ -35,13 +54,13 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             allGenerations = data.results; // Save all generations
 
-            // Add the "Any" option first for generation
+            // Voeg een optie toe voor 'Any'
             const anyOption = document.createElement('option');
             anyOption.value = 'any';
             anyOption.textContent = 'Any';
             generationSelect.appendChild(anyOption);
 
-            // Now add options for the rest of the generations
+            // Voeg de overige generaties toe aan de optielijst
             data.results.forEach(generation => {
                 const option = document.createElement('option');
                 option.value = generation.name;
@@ -52,13 +71,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 document.getElementById('start-btn').addEventListener('click', async function() {
-    const personalityTrait = document.getElementById('personalityTrait').value; // Haal de persoonlijkheid op
-    // Controleer of er een persoonlijkheid is ingevuld
-    if (!personalityTrait.trim()) {
-        alert("Please enter a personality.");
-        return;
-    }
-
     // Zet de startknop op 'Loading' en zorg dat deze niet meer clickable is
     const startButton = this;
     startButton.disabled = true;
@@ -66,6 +78,15 @@ document.getElementById('start-btn').addEventListener('click', async function() 
 
     // Haal de spelmodus op
     const gameMode = document.getElementById('gameMode').value;
+
+    // Persoonlijkheid is alleen vereist als de spelmodus 'description' is
+    const personalityTrait = document.getElementById('personalityTrait').value;
+    if (gameMode === 'description' && !personalityTrait.trim()) {
+        alert("Please enter a personality for description mode.");
+        startButton.disabled = false;
+        startButton.textContent = 'New Game';
+        return;
+    }
 
     document.body.style.backgroundColor = '#f8f9fc'; // Reset de achtergrondkleur
     document.getElementById('pokemon-image').src = ''; // Reset de afbeelding
@@ -80,16 +101,19 @@ document.getElementById('start-btn').addEventListener('click', async function() 
 
     // Als 'Any' is geselecteerd, kies dan een willekeurig type
     if (type === 'any') {
-        // Ensure this logic only runs if 'any' is selected
         const randomIndex = Math.floor(Math.random() * allTypes.length);
         type = allTypes[randomIndex].name;
     }
 
     // Als 'Any' is geselecteerd, kies dan een willekeurige generatie
     if (generation === 'any') {
-        // Randomly select a generation if 'any' is chosen
         const randomIndex = Math.floor(Math.random() * allGenerations.length);
         generation = allGenerations[randomIndex].name;
+    }
+
+    const requestBody = { type, generation, gameMode };
+    if (gameMode === 'description') {
+        requestBody.personalityTrait = personalityTrait;
     }
 
     // Verzend een POST-verzoek naar de server met de geselecteerde waarden
@@ -99,7 +123,7 @@ document.getElementById('start-btn').addEventListener('click', async function() 
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ type, generation, personalityTrait }),
+            body: JSON.stringify(requestBody),
         });
         const data = await response.json();
 
@@ -127,7 +151,7 @@ document.getElementById('start-btn').addEventListener('click', async function() 
     } finally {
         // Zet de startknop weer aan
         startButton.disabled = false;
-        startButton.textContent = 'Start Game';
+        startButton.textContent = 'New Game';
     }
 });
 

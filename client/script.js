@@ -1,9 +1,11 @@
 let allTypes
+let allGenerations
 document.addEventListener('DOMContentLoaded', function() {
     const typeSelect = document.getElementById('pokemonType'); // Selectielijst voor types
     const generationSelect = document.getElementById('pokemonGeneration'); // Selectielijst voor generaties
     allTypes = []; // Array om alle types in op te slaan
     const excludedTypes = ['unknown', 'shadow']; // Types die niet in de lijst moeten komen
+    allGenerations = []; // Array om alle generaties in op te slaan
 
     // Haal alle types op van de PokéAPI
     fetch('https://pokeapi.co/api/v2/type')
@@ -31,12 +33,19 @@ document.addEventListener('DOMContentLoaded', function() {
     fetch('https://pokeapi.co/api/v2/generation')
         .then(response => response.json())
         .then(data => {
-            // Voeg de generaties toe aan de selectielijst
+            allGenerations = data.results; // Save all generations
+
+            // Add the "Any" option first for generation
+            const anyOption = document.createElement('option');
+            anyOption.value = 'any';
+            anyOption.textContent = 'Any';
+            generationSelect.appendChild(anyOption);
+
+            // Now add options for the rest of the generations
             data.results.forEach(generation => {
-                // Maak een optie voor elke generatie
                 const option = document.createElement('option');
                 option.value = generation.name;
-                option.textContent = generation.name.charAt(0).toUpperCase() + generation.name.slice(1);
+                option.textContent = generation.name.charAt(0).toUpperCase() + generation.name.slice(1); // Capitalize first letter
                 generationSelect.appendChild(option);
             });
         });
@@ -67,13 +76,20 @@ document.getElementById('start-btn').addEventListener('click', async function() 
 
     // Haal de waarden op van de selectielijsten
     let type = document.getElementById('pokemonType').value;
-    const generation = document.getElementById('pokemonGeneration').value;
+    let generation = document.getElementById('pokemonGeneration').value;
 
     // Als 'Any' is geselecteerd, kies dan een willekeurig type
     if (type === 'any') {
         // Ensure this logic only runs if 'any' is selected
         const randomIndex = Math.floor(Math.random() * allTypes.length);
         type = allTypes[randomIndex].name;
+    }
+
+    // Als 'Any' is geselecteerd, kies dan een willekeurige generatie
+    if (generation === 'any') {
+        // Randomly select a generation if 'any' is chosen
+        const randomIndex = Math.floor(Math.random() * allGenerations.length);
+        generation = allGenerations[randomIndex].name;
     }
 
     // Verzend een POST-verzoek naar de server met de geselecteerde waarden

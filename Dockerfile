@@ -9,13 +9,13 @@ WORKDIR /usr/src/app
 
 # Copy both package.json AND package-lock.json if available
 # Make sure to adjust this if your structure is different
-COPY ./SERVER/package*.json ./
+COPY ../SERVER/package*.json ./
 
 # Install dependencies
 RUN npm install
 
 # Now copy the rest of your server's source code
-COPY ./SERVER/ ./
+COPY ../SERVER/ ./
 
 # Expose the port your app runs on
 EXPOSE 3000

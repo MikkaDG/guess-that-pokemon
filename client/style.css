@@ -16,3 +16,18 @@ header {
     font-family: 'Pokemon Solid', sans-serif;
     font-size: xx-large;
 }
+
+@media (max-width: 600px) {
+    #pokemon-image {
+        width: 15rem;
+        height: auto;
+    }
+}
+
+@media (min-width: 600px) {
+    #pokemon-image {
+        width: 20rem;
+        height: auto;
+    }
+}
+

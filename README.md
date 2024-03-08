@@ -14,7 +14,16 @@ CLIENT
 └── style.css
 ```
 
-Vervolgens verander je de naam van .env-example naar .env en vul je de juiste informatie in van de api key die jij gaat gebruiken.
+Vervolgens verander je de naam van .env-example naar .env en vul je de juiste informatie in van de api key die jij gaat gebruiken. In het geval van deze applicatie is dat de volgende informatie:
+```
+OPENAI_API_TYPE=___
+OPENAI_API_VERSION=___
+OPENAI_API_BASE=___
+AZURE_OPENAI_API_KEY=___
+DEPLOYMENT_NAME=___
+ENGINE_NAME=___
+INSTANCE_NAME=___
+```
 
 Zet het volgende in je .gitignore file:
 ```

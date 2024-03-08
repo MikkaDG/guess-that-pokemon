@@ -14,7 +14,7 @@ CLIENT
 └── style.css
 ```
 
-Vervolgens verander je de naam van .env-example naar .env en vul je de juiste informatie in van de api key die jij gaat gebruiken. In het geval van deze applicatie is dat de volgende informatie:
+Vervolgens verander je de naam van .env-example naar .env en vul je de juiste informatie in van de api key die jij gaat gebruiken.
 ```
 OPENAI_API_TYPE=___
 OPENAI_API_VERSION=___

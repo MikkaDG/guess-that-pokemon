@@ -22,4 +22,8 @@ node_modules
 .env
 ```
 
+Mocht je interesse hebben om het project live te zetten op bijvoorbeeld DigitalOcean dan zit er ook een Dockerfile inbegrepen in deze repository. 
+De Dockerfile werkt als een soort routebeschrijving zodat de deployment van een web page via DigitalOcean vrijwel automatisch gaat.
+
 **Eventuele issues**<br>
+De enige issue die ik kan bedenken bij dit project is dat de omschrijving van de Pokémon die de AI geeft niet altijd even goed is, vooral van recentere generaties zal het niet altijd even accuraat zijn

@@ -15,6 +15,15 @@ CLIENT
 ```
 
 Vervolgens verander je de naam van .env-example naar .env en vul je de juiste informatie in van de api key die jij gaat gebruiken.
+```
+OPENAI_API_TYPE=___
+OPENAI_API_VERSION=___
+OPENAI_API_BASE=___
+AZURE_OPENAI_API_KEY=___
+DEPLOYMENT_NAME=___
+ENGINE_NAME=___
+INSTANCE_NAME=___
+```
 
 Zet het volgende in je .gitignore file:
 ```
@@ -22,4 +31,8 @@ node_modules
 .env
 ```
 
+Mocht je interesse hebben om het project live te zetten op bijvoorbeeld DigitalOcean dan zit er ook een Dockerfile inbegrepen in deze repository. 
+De Dockerfile werkt als een soort routebeschrijving zodat de deployment van een web page via DigitalOcean vrijwel automatisch gaat.
+
 **Eventuele issues**<br>
+De enige issue die ik kan bedenken bij dit project is dat de omschrijving van de Pokémon die de AI geeft niet altijd even goed is, vooral van recentere generaties zal het niet altijd even accuraat zijn

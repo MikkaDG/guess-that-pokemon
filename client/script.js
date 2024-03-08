@@ -1,25 +1,9 @@
 let allTypes
 let allGenerations
+let speakButton
 
 document.addEventListener('DOMContentLoaded', function() {
-    const gameModeSelect = document.getElementById('gameMode');
-    const personalityInput = document.getElementById('personalityTrait');
-
-    // Functie om te controleren of de persoonlijkheid vereist is op basis van de spelmodus
-    function updatePersonalityRequirement() {
-        const gameMode = gameModeSelect.value;
-        // Als de spelmodus 'description' is, is de persoonlijkheid vereist
-        personalityInput.required = gameMode !== 'image';
-    }
-
-    // Roep de functie aan om de vereiste te controleren
-    updatePersonalityRequirement();
-
-    // Voeg een eventlistener toe om de vereiste te controleren wanneer de spelmodus verandert
-    gameModeSelect.addEventListener('change', updatePersonalityRequirement);
-});
-
-document.addEventListener('DOMContentLoaded', function() {
+    // Code om de selectielijsten voor types en generaties te vullen
     const typeSelect = document.getElementById('pokemonType'); // Selectielijst voor types
     const generationSelect = document.getElementById('pokemonGeneration'); // Selectielijst voor generaties
     allTypes = []; // Array om alle types in op te slaan
@@ -68,6 +52,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 generationSelect.appendChild(option);
             });
         });
+
+    // Code voor het selecteren van de spelmodus en het invoeren van de persoonlijkheid
+    const gameModeSelect = document.getElementById('gameMode');
+    const personalityInput = document.getElementById('personalityTrait');
+
+    // Functie om te controleren of de persoonlijkheid vereist is op basis van de spelmodus
+    function updatePersonalityRequirement() {
+        const gameMode = gameModeSelect.value;
+        // Als de spelmodus 'description' is, is de persoonlijkheid vereist
+        personalityInput.required = gameMode !== 'image';
+    }
+
+    // Roep de functie aan om de vereiste te controleren
+    updatePersonalityRequirement();
+
+    // Voeg een eventlistener toe om de vereiste te controleren wanneer de spelmodus verandert
+    gameModeSelect.addEventListener('change', updatePersonalityRequirement);
 });
 
 document.getElementById('start-btn').addEventListener('click', async function() {
@@ -175,3 +176,30 @@ document.getElementById('guess-btn').addEventListener('click', function() {
         document.body.style.backgroundColor = '#f8d7da'; // Lichtrood voor fout antwoord
     }
 });
+
+// Code voor het afspelen van de beschrijving
+document.getElementById('speak-description-btn').addEventListener('click', function() {
+    speakButton = this;
+    speakButton.disabled = true;
+    const descriptionText = document.getElementById('pokemon-description').textContent;
+    speakDescription(descriptionText);
+});
+
+function speakDescription(text) {
+    if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.voice = speechSynthesis.getVoices().find(voice => voice.lang === 'en-US');
+        utterance.pitch = 1.0;
+        utterance.rate = 1.0;
+
+        utterance.onend = function() {
+            speakButton.disabled = false;
+        };
+
+        speechSynthesis.speak(utterance);
+    } else {
+        alert("Speech synthesis not supported in this browser.");
+    }
+}
+
+

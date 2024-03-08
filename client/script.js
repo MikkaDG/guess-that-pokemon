@@ -57,18 +57,26 @@ document.addEventListener('DOMContentLoaded', function() {
     const gameModeSelect = document.getElementById('gameMode');
     const personalityInput = document.getElementById('personalityTrait');
 
-    // Functie om te controleren of de persoonlijkheid vereist is op basis van de spelmodus
-    function updatePersonalityRequirement() {
+    // Function to update the requirement for personality input and the visibility of the Speak Description button
+    function updateGameModeUI() {
         const gameMode = gameModeSelect.value;
-        // Als de spelmodus 'description' is, is de persoonlijkheid vereist
-        personalityInput.required = gameMode !== 'image';
+        // Personality is required if the game mode is 'description'
+        personalityInput.required = gameMode === 'description';
+
+        // Show the Speak Description button if the game mode is 'description', otherwise hide it
+        const speakDescriptionButton = document.getElementById('speak-description-btn');
+        if (gameMode === 'description') {
+            speakDescriptionButton.style.display = 'block'; // Show the button
+        } else {
+            speakDescriptionButton.style.display = 'none'; // Hide the button
+        }
     }
 
-    // Roep de functie aan om de vereiste te controleren
-    updatePersonalityRequirement();
+    // Call the function to ensure the UI is correct based on the initial game mode selection
+    updateGameModeUI();
 
-    // Voeg een eventlistener toe om de vereiste te controleren wanneer de spelmodus verandert
-    gameModeSelect.addEventListener('change', updatePersonalityRequirement);
+    // Add an event listener to check the requirement when the game mode changes
+    gameModeSelect.addEventListener('change', updateGameModeUI);
 });
 
 document.getElementById('start-btn').addEventListener('click', async function() {

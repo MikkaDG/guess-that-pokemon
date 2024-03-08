@@ -49,7 +49,7 @@ app.post('/chat', async (req, res) => {
         const pokemonDetailsResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${randomPokemonName}`);
         const pokemonDetails = await pokemonDetailsResponse.json();
 
-        let description = ""; // Initialize description as an empty string
+        let description = ""; // Dit stelt de description in als een lege string als de spelmodus niet 'description' is
 
         // Genereert alleen beschrijving als spelmodus 'description' is om onnodig gebruik van de AI te voorkomen
         if (gameMode === 'description') {
